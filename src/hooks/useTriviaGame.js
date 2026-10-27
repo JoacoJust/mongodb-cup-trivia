@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react'
 import { questions } from '../data/questions'
 
 /**
@@ -14,6 +14,11 @@ export const useTriviaGame = () => {
   const [errors, setErrors] = useState(0)             // pérdidas de pelota (respuestas incorrectas)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [isAnswered, setIsAnswered] = useState(false)
+  const [celebrating, setCelebrating] = useState(false) // gambeta visible en la cancha
+  const timeoutRef = useRef(null)
+
+  // Limpieza del timer si el componente se desmonta (evita fugas de memoria)
+  useEffect(() => () => clearTimeout(timeoutRef.current), [])
 
   const totalQuestions = questions.length
 
@@ -56,23 +61,35 @@ export const useTriviaGame = () => {
 
   /**
    * Cierre del feedback:
-   * - Si acertó, la jugada queda registrada y avanza (o finaliza el partido).
-   * - Si falló, la misma pregunta vuelve a intentarse más adelante.
+   * - Si acertó: se cierra el modal 1.4s para VER la gambeta animada en la cancha
+   *   (el jugador corriendo con la pelota y pasando al rival), luego se avanza.
+   * - Si falló: se reintenta la misma jugada (la pelota no avanza).
    */
   const nextPlay = useCallback(() => {
     const wasCorrect = currentQuestion && selectedAnswer === currentQuestion.answer
 
-    if (wasCorrect) {
+    if (!wasCorrect) {
+      // Robo: el modal se cierra y la misma pregunta vuelve a la cola
+      setSelectedAnswer(null)
+      setIsAnswered(false)
+      return
+    }
+
+    // Gambeta ganada: primero mostrar la animación del avance
+    setIsAnswered(false)
+    setSelectedAnswer(null)
+    setCelebrating(true)
+
+    timeoutRef.current = setTimeout(() => {
+      setCelebrating(false)
+
       const newSolved = [...solvedIds, currentQuestion.id]
       setSolvedIds(newSolved)
 
       if (newSolved.length === totalQuestions) {
         setGameState('finished') // ¡GOL!
       }
-    }
-
-    setSelectedAnswer(null)
-    setIsAnswered(false)
+    }, 1400)
   }, [currentQuestion, selectedAnswer, solvedIds, totalQuestions])
 
   const restartGame = useCallback(() => {
@@ -87,6 +104,7 @@ export const useTriviaGame = () => {
     errors,
     selectedAnswer,
     isAnswered,
+    celebrating,
     progress,
     startGame,
     handleAnswerSelect,

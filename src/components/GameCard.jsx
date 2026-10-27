@@ -1,10 +1,10 @@
 import React from 'react'
 import OptionButton from './OptionButton'
-import ProgressBar from './ProgressBar'
+import FieldView from './FieldView'
 
 /**
  * Cancha del partido: cada pregunta es una jugada.
- * Si se resuelve bien, el balón avanza; si no, el rival roba y hay que reintentar.
+ * Si se resuelve bien, el jugador gambetea al rival (animación); si no, lo roban.
  */
 const GameCard = ({
   question,
@@ -13,6 +13,7 @@ const GameCard = ({
   errors,
   selectedAnswer,
   isAnswered,
+  celebrating,
   onAnswerSelect
 }) => {
   const getCategoryColor = (category) => {
@@ -31,10 +32,12 @@ const GameCard = ({
   return (
     <div className="min-h-screen p-4 py-6 sm:py-10 bg-gradient-to-b from-emerald-950/40 via-slate-950 to-slate-950">
       <div className="max-w-4xl mx-auto">
-        <ProgressBar
+        <FieldView
           solvedCount={solvedCount}
           totalQuestions={totalQuestions}
           errors={errors}
+          isAnswered={isAnswered}
+          isCorrect={selectedAnswer === question.answer}
         />
 
         <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-emerald-500/30

@@ -18,6 +18,7 @@ function App() {
     errors,
     selectedAnswer,
     isAnswered,
+    celebrating,
     startGame,
     handleAnswerSelect,
     nextPlay,
@@ -48,6 +49,7 @@ function App() {
         errors={errors}
         selectedAnswer={selectedAnswer}
         isAnswered={isAnswered}
+        celebrating={celebrating}
         onAnswerSelect={handleAnswerSelect}
       />
 
