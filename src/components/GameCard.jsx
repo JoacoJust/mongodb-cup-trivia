@@ -31,7 +31,7 @@ const GameCard = ({
 
   return (
     <div className="min-h-screen p-4 py-6 sm:py-10 bg-gradient-to-b from-emerald-950/40 via-slate-950 to-slate-950">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <FieldView
           solvedCount={solvedCount}
           totalQuestions={totalQuestions}
