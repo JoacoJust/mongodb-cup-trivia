@@ -87,7 +87,10 @@ export const useTriviaGame = () => {
       setSolvedIds(newSolved)
 
       if (newSolved.length === totalQuestions) {
-        setGameState('finished') // ¡GOL!
+        // Última gambeta: dejar VER al jugador vencer al arquero 🧤 antes del GOL
+        timeoutRef.current = setTimeout(() => {
+          setGameState('finished') // ¡GOL!
+        }, 1600)
       }
     }, 1400)
   }, [currentQuestion, selectedAnswer, solvedIds, totalQuestions])

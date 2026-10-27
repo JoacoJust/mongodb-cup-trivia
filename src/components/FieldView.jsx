@@ -87,6 +87,25 @@ const FieldView = ({ solvedCount, totalQuestions, errors, isAnswered, isCorrect 
         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-16 sm:w-24 h-40 sm:h-52 border-y-2 border-l-2 border-white/25 rounded-l-xl"></div>
         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-14 sm:h-28 h-32 bg-black/40 rounded-l-sm border-l-2 border-white/30"></div>
 
+        {/* ARQUERO 🧤: defiende la portería. Solo cae si ganaste TODAS las jugadas */}
+        <div
+          className={`absolute right-[3%] top-1/2 -translate-y-1/2 z-25 transition-all duration-700 flex flex-col items-center ${
+            solvedCount >= totalQuestions ? 'opacity-30 grayscale translate-y-2' : ''
+          }`}
+        >
+          <span
+            className="text-4xl sm:text-5xl select-none drop-shadow-xl"
+            style={{ transform: 'scaleX(-1)' }}
+          >
+            🧤
+          </span>
+          {solvedCount < totalQuestions && (
+            <span className="text-[9px] uppercase tracking-wide bg-yellow-500/90 text-yellow-950 px-1.5 py-0.5 rounded font-black shadow">
+              ARQUERO
+            </span>
+          )}
+        </div>
+
         {/* Arco rival (meta derecha) */}
         <div className="absolute right-2 top-1/2 -translate-y-1/2 text-3xl sm:text-4xl z-10">
           🥅
