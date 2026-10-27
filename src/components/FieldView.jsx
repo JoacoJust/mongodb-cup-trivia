@@ -55,8 +55,8 @@ const FieldView = ({ solvedCount, totalQuestions, errors, isAnswered, isCorrect 
       {/* Cancha horizontal GRANDE */}
       <div className="relative w-full h-64 sm:h-80 lg:h-96 rounded-2xl overflow-hidden border-2 border-emerald-700/60 shadow-2xl shadow-emerald-900/50">
 
-        {/* Césped con franjas horizontales */}
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-800 to-emerald-950">
+        {/* Césped con franjas */}
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-900 to-emerald-950">
           <div
             className="absolute inset-0 opacity-25"
             style={{
@@ -64,7 +64,20 @@ const FieldView = ({ solvedCount, totalQuestions, errors, isAnswered, isCorrect 
                 'repeating-linear-gradient(to right, rgba(255,255,255,0.08) 0px, rgba(255,255,255,0.08) 28px, transparent 28px, transparent 56px)'
             }}
           ></div>
+          {/* Textura de pasto */}
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage:
+                'radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px)',
+              backgroundSize: '6px 6px'
+            }}
+          ></div>
         </div>
+
+        {/* Marcas de desgaste junto a los arcos (realismo) */}
+        <div className="absolute left-6 top-1/2 -translate-y-1/2 w-8 h-10 rounded-full bg-black/10 blur-[2px]"></div>
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 w-8 h-10 rounded-full bg-black/10 blur-[2px]"></div>
 
         {/* Líneas: arco propio (izq), área, círculo central, área rival (der) */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-10 sm:w-14 h-28 sm:h-36 bg-black/30 rounded-r-sm border-r-2 border-white/30"></div>
@@ -87,34 +100,53 @@ const FieldView = ({ solvedCount, totalQuestions, errors, isAnswered, isCorrect 
           <div
             key={d.id}
             className={`absolute -translate-y-1/2 transition-all duration-500 z-20 ${
-              i % 2 === 0 ? 'top-[28%]' : 'top-[72%]'
+              i % 2 === 0 ? 'top-[26%]' : 'top-[74%]'
             }`}
             style={{ left: `${d.leftPercent}%` }}
           >
-            {d.beaten ? (
-              <span className="opacity-30 grayscale text-xl sm:text-2xl select-none">🧍‍♂️❌</span>
-            ) : (
-              <span className="text-xl sm:text-2xl select-none drop-shadow-lg">🧍‍♂️</span>
-            )}
+            <div className="flex flex-col items-center">
+              <span
+                className={`text-3xl sm:text-4xl select-none drop-shadow-lg ${
+                  d.beaten ? 'opacity-30 grayscale' : ''
+                }`}
+                style={{ transform: 'scaleX(-1)' }}
+              >
+                🧍‍♂️
+              </span>
+              {/* Camiseta rival: mirada al jugador */}
+              {!d.beaten && (
+                <span className="text-[9px] uppercase tracking-wide bg-red-600/80 text-white px-1.5 py-0.5 rounded font-bold shadow">
+                  DB #{d.id}
+                </span>
+              )}
+            </div>
           </div>
         ))}
 
         {/* Camino del jugador (línea punteada) */}
         <div className="absolute top-1/2 left-0 right-0 border-t-2 border-dashed border-white/15"></div>
 
-        {/* Jugador con la pelota (corre por el carril central) */}
+        {/* Jugador con la pelota (corre por el carril central mirando a la derecha) */}
         <div
           className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-30 transition-all duration-[1200ms] ease-in-out"
           style={{ left: `${playerLeftPercent}%` }}
         >
           <div className="flex items-center gap-1">
-            <span className={`text-lg sm:text-2xl ${isCelebrating ? 'animate-bounce' : ''}`}>⚽</span>
             <span
-              className={`text-3xl sm:text-4xl select-none drop-shadow-lg ${
+              className={`text-4xl sm:text-5xl select-none drop-shadow-xl ${
                 isCelebrating ? 'animate-pulse' : ''
               } ${isRobbed ? 'grayscale opacity-60' : ''}`}
+              style={{ transform: 'scaleX(-1)' }} /* mirando hacia la portería (derecha) */
             >
               🏃‍♂️
+            </span>
+            {/* Pelota adelante del pie */}
+            <span
+              className={`text-xl sm:text-2xl drop-shadow-lg ${
+                isCelebrating ? 'animate-bounce' : ''
+              }`}
+            >
+              ⚽
             </span>
           </div>
         </div>
