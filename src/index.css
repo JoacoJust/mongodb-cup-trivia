@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply min-h-screen bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-950;
+  }
+}
+
+@layer components {
+  .kahoot-btn {
+    @apply w-full text-left p-4 sm:p-5 rounded-xl border-2 transition-all duration-200 
+           font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl
+           active:scale-[0.98] disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+  
+  .card-glow {
+    @apply relative overflow-hidden before:absolute before:inset-0 
+           before:bg-gradient-to-r before:from-purple-500/10 before:to-cyan-500/10 
+           before:opacity-0 hover:before:opacity-100 before:transition-opacity;
+  }
+}
