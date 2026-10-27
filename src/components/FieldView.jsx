@@ -95,10 +95,11 @@ const FieldView = ({ solvedCount, totalQuestions, errors, isAnswered, isCorrect 
         >
           <span
             className="text-4xl sm:text-5xl select-none drop-shadow-xl"
-            style={{ transform: 'scaleX(-1)' }}
+            style={{ transform: 'scaleX(-1)' }} /* brazos arriba tapando el arco */
           >
-            🧤
+            🙆‍♂️
           </span>
+          <span className="text-base sm:text-lg -mt-1">🧤</span>
           {solvedCount < totalQuestions && (
             <span className="text-[9px] uppercase tracking-wide bg-yellow-500/90 text-yellow-950 px-1.5 py-0.5 rounded font-black shadow">
               ARQUERO
